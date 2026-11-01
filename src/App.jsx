@@ -3,6 +3,7 @@ import {CONFIG} from './config';
 import Story from './Story';
 import Adventure from './Adventure';
 import Player from './Player';
+import Countdown from './Countdown';
 import {sfx,initSound} from './sound';
 import {ARCHIVE} from './content/archive';
 
@@ -362,7 +363,16 @@ function App(){
   const [currentStage,setStage]=useState(()=>{try{const n=parseInt(sessionStorage.getItem("marianna_stage"));return n>=3&&n<=6?n:0}catch(e){return 0}});
   useEffect(()=>{try{sessionStorage.setItem("marianna_stage",String(currentStage))}catch(e){}},[currentStage]);
   useEffect(()=>{if(currentStage>=3)sfx.music(true)},[]); // page restored after a reload: music resumes on the first tap
+  // gate: countdown, then fireworks + button; ?demo shows a 9 second countdown, ?skip opens the site at once
+  const [entered,setEntered]=useState(()=>{
+    try{
+      const q=window.location.search;
+      if(/[?&]demo\b/.test(q))return false;
+      return /[?&]skip\b/.test(q)||sessionStorage.getItem("marianna_entered")==="1"||parseInt(sessionStorage.getItem("marianna_stage"))>=3;
+    }catch(e){return false}
+  });
   // 0 singularity,1 terminal,2 circle reveal,3 story (Кротик),4 adventure,5 archive,6 letter
+  if(!entered)return <Countdown onEnter={()=>{try{sessionStorage.setItem("marianna_entered","1")}catch(e){}setEntered(true)}}/>;
   return(
     <div className="fixed inset-0 overflow-hidden text-white">
       <button onClick={()=>currentStage>=3?setPlayerOpen(o=>!o):toggleMute()} aria-label={currentStage>=3?"Player":"Toggle sound"} aria-expanded={currentStage>=3?playerOpen:undefined} className="fixed top-3 right-3 w-[52px] h-[52px] rounded-full bg-black/25 text-2xl flex items-center justify-center active:scale-90" style={{zIndex:50,boxShadow:currentStage>=3&&playerOpen?"0 0 0 3px rgba(255,255,255,.6)":"none",transition:"box-shadow .3s"}}>{muted?"🔇":"🔊"}</button>

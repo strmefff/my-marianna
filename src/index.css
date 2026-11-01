@@ -112,3 +112,35 @@ html.dark .ipod-lcd{--lcd-bg:#c9eef2;--lcd-fg:#0c2a33;box-shadow:inset 0 0 14px 
   box-shadow:0 0 0 1px rgba(0,0,0,.16),inset 0 2px 2px rgba(255,255,255,.95),inset 0 -3px 5px rgba(0,0,0,.10),0 2px 4px rgba(0,0,0,.18)}
 .ipod-center:active{box-shadow:0 0 0 1px rgba(0,0,0,.16),inset 0 3px 6px rgba(0,0,0,.18)}
 @media (prefers-reduced-motion:reduce){.ipod{transition:opacity .2s}.ipod-eq i,.ipod-stripe{animation:none}.ipod-eq i{transform:scaleY(.5)}}
+
+
+/* ===== countdown gate ===== */
+.cd-colon{animation:cdblink 1s steps(1) infinite;opacity:.8}
+@keyframes cdblink{50%{opacity:.15}}
+.cd-flash{background:#fff;animation:cdflash 1.6s ease-out forwards}
+@keyframes cdflash{0%{opacity:.95}100%{opacity:0}}
+.cd-btn{position:relative;overflow:hidden;margin-top:36px;padding:2px;border:0;border-radius:999px;cursor:pointer;background:#ff4d8d;
+  box-shadow:0 0 34px rgba(255,77,141,.55),0 12px 34px rgba(0,0,0,.5);
+  transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+.cd-btn::before{content:"";position:absolute;left:50%;top:50%;width:260%;aspect-ratio:1;translate:-50% -50%;
+  background:conic-gradient(#ff4d8d,#ffd1e1,#c084fc,#ff7aa8,#ff4d8d);animation:cdspin 3.5s linear infinite}
+.cd-btn:hover{box-shadow:0 0 52px rgba(255,77,141,.8),0 12px 34px rgba(0,0,0,.5)}
+.cd-btn:active{transform:scale(.96)!important}
+.cd-btn-in{position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;padding:15px 34px;border-radius:999px;
+  background:linear-gradient(180deg,#2c1020,#14070e);color:#ffdce9;font-size:22px;letter-spacing:.02em}
+.cd-btn-in::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.2) 50%,transparent 70%);
+  transform:translateX(-120%);animation:cdshine 3.2s ease-in-out infinite}
+.cd-heart{color:#ff4d8d;filter:drop-shadow(0 0 8px rgba(255,77,141,.9));animation:cdbeat 1.3s ease-in-out infinite}
+.cd-arrow{display:inline-block;transition:transform .3s}
+.cd-btn:hover .cd-arrow{transform:translateX(6px)}
+@keyframes cdspin{to{rotate:360deg}}
+@keyframes cdshine{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@keyframes cdbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.3)}30%{transform:scale(1)}45%{transform:scale(1.2)}}
+@media (prefers-reduced-motion:reduce){.cd-flash{animation-duration:.4s}.cd-btn::before,.cd-btn-in::after,.cd-heart{animation:none}}
+
+
+/* ===== notice for non-iPad devices ===== */
+.dn-float{animation:dnfloat 4s ease-in-out infinite;filter:drop-shadow(0 0 22px rgba(255,105,160,.45))}
+@keyframes dnfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.dn-beat{transform-box:fill-box;transform-origin:center;animation:cdbeat 1.3s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.dn-float,.dn-beat{animation:none}}

@@ -316,6 +316,7 @@ export const sfx = {
     musicStart();
   },
   musicPlaying: () => musicWant && !musicPaused,
+  musicActive: () => !!musicTimer || !!(musicEl && musicEl.dataset.src && !musicEl.paused),
 
   isMuted: () => muted,
   getVolume: () => vol,
